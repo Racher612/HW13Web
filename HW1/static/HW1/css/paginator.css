@@ -1,0 +1,16 @@
+.paginator-list-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+
+    gap: 1%;
+}
+
+.paginator-button{
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+
+    color: white;
+    text-align: center;
+}

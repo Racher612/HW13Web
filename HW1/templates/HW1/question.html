@@ -1,0 +1,76 @@
+{% extends "HW1/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="columnflex">
+    <div class = "DarkGradient main-question-container">
+        <div class = "images-buttons-container">
+            <div class="user-avatar">
+                        <img src = {{mainquestion.src}} class="avatar-128 bg-primary rounded-circle" alt="avatar">
+            </div>
+            <div class="buttons">
+                <div class="columnflex align-items-center">
+                    <button class = "btn rounded-5 bg-white">👍</button>
+                    <p class="BeautifulWhitetext">{{mainquestion.likenum}}</p>
+                </div>
+                <div class="columnflex align-items-center">
+                    <button class = "btn rounded-5 bg-white">👎</button>
+                    <p class="BeautifulWhitetext">{{mainquestion.dislikenum}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="text-container">
+            <a class="GoldenFont golden-link" href="{% url 'questionById' mainquestion.id %}">{{mainquestion.question_name}}</a>
+            <div class="BeautifulWhitetext"><p>{{mainquestion.question_description}}</p>
+        </div>
+            <div class="GoldenFont tag-container">tags:
+                    {% for tag in mainquestion.taglist %}
+                        <a href = "{% url 'questionByTag' tag %}" class="BeautifulWhitetext white-link">{{tag}},  </a>
+                    {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class = "align-items-center CommentBar">
+        <p class="BeautifulWhitetext DarkGradient rounded-3">comments: </p>
+    </div>
+
+    <nav class="NavInfo"><ul>
+    {% for comment in commentlist %}
+    <div class = "DarkGradient question-container">
+        <div class = "images-buttons-container">
+            <div class="user-avatar">
+                        <img src = {{mainquestion.src}} class="avatar-128 bg-primary rounded-circle" alt="avatar">
+            </div>
+            <div class="buttons">
+                <div class="columnflex align-items-center">
+                    <button class = "btn rounded-5 bg-white">👍</button>
+                    <p class="BeautifulWhitetext">{{comment.likenum}}</p>
+                </div>
+                <div class="columnflex align-items-center">
+                    <button class = "btn rounded-5 bg-white">👎</button>
+                    <p class="BeautifulWhitetext">{{comment.dislikenum}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="text-container-comments">
+            <div class="BeautifulWhitetext"><p>{{comment.question_description}}</p></div>
+            {% if comment.isuseful %}
+            <div class="BeautifulGreentext watermark">✅Author considered this response useful</div>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+    {% include "HW1/paginator.html" %}
+    </ul></nav>
+</div>
+
+{% endblock %}
+{% block content2 %}
+<div class="comment-functional-container rowflex DarkGradient">
+    <input type="text" class="form-control comment-placeholder" placeholder="Enter your comment here">
+    <button type="button" class="button-sent BeautifulWhitetext" >
+        <img src="{% static 'HW1/img/sent.png' %}" width="70%" height="70%" alt="submit"/>
+    </button>
+</div>
+{% endblock %}

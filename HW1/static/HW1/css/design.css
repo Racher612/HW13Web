@@ -1,0 +1,94 @@
+.BackgroundTheme{
+    background: #FFFF04;
+    background: linear-gradient(70deg, #FFFF04, #FFF, #FFFF04, #FFF, #FFFF04, #FFF);
+                linear-gradient(217deg, #FFF, #FFFF04, #FFF, #FFFF04, #FFF);
+}
+
+.DarkGradient{
+    background: rgba(0, 10, 253, 0.60);
+    background: linear-gradient(180deg, rgba(0, 10, 253, 0.60) 0%, rgba(0, 10, 255, 0.60) 0.01%, rgba(255, 0, 245, 0.60) 100%);
+}
+
+.GoldenFont{
+    color: #FFD700;
+    font: bold 1.2rem "Fira Sans", serif;
+    font-size: 30px;
+}
+
+.BeautifulWhitetext{
+    margin: 1% 0;
+    color: white;
+    font: 1.2rem "Arial Narrow", serif;
+    font-size: 20px;
+}
+
+.BeautifulGreentext{
+    margin: 1% 0;
+    color: greenyellow;
+    font: 1.2rem "Arial Narrow", serif;
+    font-size: 20px;
+}
+
+.BeautifulRedtext{
+    margin: 1% 0;
+    color: red;
+    font: 1.2rem "Arial Narrow", serif;
+    font-size: 20px;
+}
+
+.rowflex{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.columnflex{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.tag-container{
+    display: grid;
+    justify-content: space-between;
+    grid-template-columns: repeat(auto-fit, minmax(65px, 1fr));
+    grid-row: span;
+    grid-gap: 1rem;
+}
+
+.fullscreen{
+    width: 100%;
+}
+
+.left-align{
+    display: flex;
+    justify-content: start;
+}
+
+.Mistake{
+    visibility: hidden;
+}
+
+a.white-link:link{
+    color: white;
+    text-decoration: none;
+}
+
+a.white-link:visited{
+    color: white;
+    text-decoration: none;
+}
+
+a.golden-link:link{
+    color: #FFD700;
+    font: bold 1.2rem "Fira Sans", serif;
+    font-size: 30px;
+    text-decoration: none;
+}
+
+a.golden-link:visited{
+    color: #FFD700;
+    font: bold 1.2rem "Fira Sans", serif;
+    font-size: 30px;
+    text-decoration: none;
+}

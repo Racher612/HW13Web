@@ -1,0 +1,22 @@
+.registration-container{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+
+    width: 60vw;
+    height: 75vh;
+
+    margin: 2%;
+    border-radius: 15px;
+
+    align-items: center;
+}
+
+.tuple-button-container{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+
+    width: 90%;
+    left: 0;
+}

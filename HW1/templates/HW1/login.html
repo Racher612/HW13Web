@@ -1,0 +1,22 @@
+{% extends "HW1/base.html" %}
+
+{% block content %}
+<div class="new-question-container DarkGradient">
+    <div class="GoldenFont">Register</div>
+    <div class="rowflex tuple-container">
+        <div class="GoldenFont little-text-container">Login: </div>
+        <div class="button-block-container">
+          <input type="text" class="form-control " placeholder="Input Login">
+        </div>
+    </div>
+    <div class="rowflex tuple-container">
+        <div class="GoldenFont little-text-container">Password: </div>
+        <div class="button-block-container">
+          <input type="text" class="form-control" placeholder="Input Password">
+        </div>
+    </div>
+    <div class="single-button-container">
+        <button type="button" class="btn btn-light">Log In!</button>
+    </div>
+</div>
+{% endblock %}

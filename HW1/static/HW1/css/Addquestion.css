@@ -1,0 +1,42 @@
+.new-question-container{
+    width: 60%;
+    height: 70vh;
+
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+
+    border-radius: 15px;
+    margin: 3%;
+
+    align-items: center;
+}
+
+.large-input-field{
+    !important;
+    height: 200px;
+    width: 400px;
+}
+
+.tuple-container{
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+
+    width: 90%;
+}
+
+.single-button-container{
+    width: 90%;
+    left: 0;
+}
+
+.button-block-container{
+    width: 80%;
+    padding-left: 2%;
+}
+
+.little-text-container{
+    width: 25%;
+    left: 0;
+}

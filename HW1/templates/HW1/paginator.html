@@ -1,0 +1,9 @@
+<nav >
+    <ul class="paginator-list-container">
+        {% for p in page_obj.paginator.page_range %}
+        <div class="paginator-button DarkGradient">
+            <a href="?page={{ p }}" class = "white-link">{{ p }}</a>
+        </div>
+        {% endfor %}
+    </ul>
+</nav>

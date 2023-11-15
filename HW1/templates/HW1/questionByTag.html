@@ -1,0 +1,46 @@
+{% extends "HW1/base.html" %}
+
+{% block content %}
+
+<div class="large-question-container">
+<div class="DarkGradient info-tag-container">
+    <div class="GoldenFont">Tag:</div>
+    <div class="BeautifulWhitetext">{{tag}}</div>
+</div>
+    {% for question in questionlist %}
+    <div class = "DarkGradient question-container">
+        <div class = "images-buttons-container">
+            <div class="user-avatar">
+                        <img src = {{question.src}} class="avatar-128 bg-primary rounded-circle" alt="avatar">
+            </div>
+            <div class="buttons">
+                <div class="columnflex align-items-center">
+                    <button class = "btn rounded-5 bg-white">👍</button>
+                    <p class="BeautifulWhitetext">{{question.likenum}}</p>
+                </div>
+                <div class="columnflex align-items-center">
+                    <button class = "btn rounded-5 bg-white">👎</button>
+                    <p class="BeautifulWhitetext">{{question.dislikenum}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="text-container">
+            <a class="GoldenFont golden-link" href="{% url 'questionById' question.id %}">{{question.question_name}}</a>
+            <div class="BeautifulWhitetext"><p>{{question.question_description}}</p></div>
+            <div class = "">
+                <div class="GoldenFont tag-container">tags:
+                        {% for tag in question.taglist %}
+                            <a href = "{% url 'questionByTag' tag %}" class="BeautifulWhitetext white-link">{{tag}},  </a>
+                        {% endfor %}
+                </div>
+                <div class="GoldenFont">
+                    Answers({{question.answers_count}})
+                </div>
+                </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% include "HW1/paginator.html" %}
+</div>
+{% endblock %}

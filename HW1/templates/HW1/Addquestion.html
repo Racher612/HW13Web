@@ -1,0 +1,28 @@
+{% extends "HW1/base.html" %}
+
+{% block content %}
+<div class="new-question-container DarkGradient">
+    <div class="GoldenFont">New Question</div>
+    <div class="rowflex tuple-container">
+        <div class="GoldenFont little-text-container">Title: </div>
+        <div class="button-block-container">
+          <input type="text" class="form-control" placeholder="Input Title">
+        </div>
+    </div>
+    <div class="rowflex tuple-container">
+        <div class="GoldenFont little-text-container">Text: </div>
+        <div class="button-block-container">
+          <input type="text" class="form-control large-input-field" placeholder="Input Text">
+        </div>
+    </div>
+    <div class="rowflex tuple-container">
+        <div class="GoldenFont little-text-container">Tags: </div>
+        <div class="button-block-container">
+          <input type="text" class="form-control " placeholder="Input Tags">
+        </div>
+    </div>
+    <div class="single-button-container">
+        <button type="button" class="btn btn-light">ASK!</button>
+    </div>
+</div>
+{% endblock %}

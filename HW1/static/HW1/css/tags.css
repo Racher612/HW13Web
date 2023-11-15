@@ -1,0 +1,16 @@
+.tagWindow{
+    margin-top: 30px;
+    position: sticky;
+    top: 100px;
+    width: 25%;
+    height: 70%;
+    border-radius: 15px;
+
+    margin-right: 2%;
+
+    padding: 2%;
+
+    text-align: center;
+    color: white;
+}
+

@@ -1,0 +1,44 @@
+.foot{
+    width: 100%;
+    color: white;
+    align-content: center;
+}
+
+.user-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    position: relative;
+    right: 20px;
+
+    align-items: center;
+}
+
+.ava{
+    display: flex;
+    justify-content: center;
+    max-width: 30px;
+    max-height: 30px;
+}
+
+.username{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+
+    flex-wrap: nowrap;
+
+    align-items: center;
+}
+
+.name-container{
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+}
+
+#logo{
+    font-family: 'Oswald', sans-serif;
+    white-space: nowrap;
+}
