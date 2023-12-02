@@ -1,12 +1,13 @@
 {% extends "HW1/base.html" %}
 
+{% load static %}
 {% block content %}
 <div class="large-question-container">
     {% for question in questionlist %}
     <div class = "DarkGradient question-container">
         <div class = "images-buttons-container">
             <div class="user-avatar">
-                        <img src = {{question.src}} class="avatar-128 bg-primary rounded-circle" alt="avatar">
+                        <img src = "{% static question.user.avatar %}" class="avatar-128 bg-primary rounded-circle" alt="avatar">
             </div>
             <div class="buttons">
                 <div class="columnflex align-items-center">
@@ -24,7 +25,7 @@
             <div class="BeautifulWhitetext"><p>{{question.question_description}}</p></div>
             <div class = "">
                 <div class="GoldenFont tag-container">tags:
-                        {% for tag in question.taglist %}
+                        {% for tag in question.taglist.all %}
                             <a href = "{% url 'questionByTag' tag %}" class="BeautifulWhitetext white-link">{{tag}},  </a>
                         {% endfor %}
                 </div>

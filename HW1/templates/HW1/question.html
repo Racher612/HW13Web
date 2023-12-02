@@ -3,11 +3,12 @@
 
 {% block content %}
 
+
 <div class="columnflex">
     <div class = "DarkGradient main-question-container">
         <div class = "images-buttons-container">
             <div class="user-avatar">
-                        <img src = {{mainquestion.src}} class="avatar-128 bg-primary rounded-circle" alt="avatar">
+                        <img src = "{% static mainquestion.user.avatar %}" class="avatar-128 bg-primary rounded-circle" alt="avatar">
             </div>
             <div class="buttons">
                 <div class="columnflex align-items-center">
@@ -25,7 +26,7 @@
             <div class="BeautifulWhitetext"><p>{{mainquestion.question_description}}</p>
         </div>
             <div class="GoldenFont tag-container">tags:
-                    {% for tag in mainquestion.taglist %}
+                    {% for tag in mainquestion.taglist.all %}
                         <a href = "{% url 'questionByTag' tag %}" class="BeautifulWhitetext white-link">{{tag}},  </a>
                     {% endfor %}
             </div>
@@ -40,7 +41,7 @@
     <div class = "DarkGradient question-container">
         <div class = "images-buttons-container">
             <div class="user-avatar">
-                        <img src = {{mainquestion.src}} class="avatar-128 bg-primary rounded-circle" alt="avatar">
+                        <img src = "{% static comment.user.avatar %}" class="avatar-128 bg-primary rounded-circle" alt="avatar">
             </div>
             <div class="buttons">
                 <div class="columnflex align-items-center">
@@ -54,7 +55,7 @@
             </div>
         </div>
         <div class="text-container-comments">
-            <div class="BeautifulWhitetext"><p>{{comment.question_description}}</p></div>
+            <div class="BeautifulWhitetext"><p>{{comment.description}}</p></div>
             {% if comment.isuseful %}
             <div class="BeautifulGreentext watermark">✅Author considered this response useful</div>
             {% endif %}
@@ -64,7 +65,6 @@
     {% include "HW1/paginator.html" %}
     </ul></nav>
 </div>
-
 {% endblock %}
 {% block content2 %}
 <div class="comment-functional-container rowflex DarkGradient">

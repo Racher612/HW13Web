@@ -5,4 +5,6 @@ admin.site.register(Profile)
 admin.site.register(Tag)
 admin.site.register(Question)
 admin.site.register(Comment)
-admin.site.register(Likes)
+admin.site.register(Commentlikes)
+admin.site.register(Questionlikes)
+

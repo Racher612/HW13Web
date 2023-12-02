@@ -1,25 +1,94 @@
+import random
+
 from django.contrib.auth.models import User
+from django.core.files import File
 from django.db import models
 
 class questionManager(models.Manager):
-    def questionById(self):
+    def questionById(self, question_id):
+        return self.filter(id = question_id)
+
+    def questionByTag(self, tagname):
+        try:
+            return self.filter(taglist__in = [tagname])
+        except:
+            return []
+
+    def allquestions(self):
         return self.all()
+
+    def like(self, id):
+        quest = self.filter(id = id + 1)[0]
+        quest.likenum += 1
+        quest.save()
+
+    def dislike(self, id):
+        quest = self.filter(id=id + 1)[0]
+        quest.dislikenum += 1
+        quest.save()
+
+
+class profileManager(models.Manager):
+    def allprofiles(self):
+        return self.all()
+
+    def best(self):
+        return self.all()[0:6]
+
+class tagManager(models.Manager):
+
+    def alltags(self):
+        return self.all()
+    def firstten(self):
+        try:
+            return self.all()[:6]
+        except:
+            return self.all()
+
+    def tagbyname(self, tagname):
+        try:
+            return self.filter(tag = tagname)[0]
+        except:
+            return '\n\n\n\n'
+
+class commentManager(models.Manager):
+
+    def allcomments(self):
+        return self.all()
+
+    def commentbyquestion(self, question):
+        return self.filter(question = question)
+
+class CommentlikesManager(models.Manager):
+    def allcomments(self):
+        return self.all()
+
+class QuestionlikesManager(models.Manager):
+    def allquestions(self):
+        return self.all()
+
 
 class Profile(models.Model):
     id = models.AutoField(primary_key = True)
-    login = models.CharField(max_length=25)
-    avatar = models.CharField(max_length=100)
-    email = models.CharField(max_length=50)
-    nickname = models.CharField(max_length=25)
-    password = models.CharField(max_length=50)
+    avatar = models.ImageField()
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
+    objects = profileManager()
+
+    def save_file(self, file):
+        path = "HW1/static/HW1/img/"
+        path += file
+
+        with open(path) as f:
+            self.avatar.save(file, File(f))
     def __str__(self):
-        return self.nickname
+        return self.user.__str__()
 
 class Tag(models.Model):
     id = models.AutoField(primary_key=True)
     tag = models.CharField(max_length=20)
+
+    objects = tagManager()
 
     def __str__(self):
         return self.tag
@@ -30,9 +99,8 @@ class Question(models.Model):
     question_description = models.TextField()
 
     user = models.ForeignKey(Profile, on_delete = models.SET_NULL, null=True)
-    tag1 = models.OneToOneField(Tag, models.SET_NULL, null = True, related_name="tag1")
-    tag2 = models.OneToOneField(Tag, models.SET_NULL, null = True, related_name="tag2")
-    tag3 = models.OneToOneField(Tag, models.SET_NULL, null = True, related_name="tag3")
+    taglist = models.ManyToManyField(Tag, unique = False)
+    date = models.DateField(blank=True, null = True)
 
     likenum = models.IntegerField()
     dislikenum = models.IntegerField()
@@ -52,17 +120,35 @@ class Comment(models.Model):
     likenum = models.IntegerField()
     dislikenum = models.IntegerField()
 
+    objects = commentManager()
+
     def __repr__(self):
         return self.description[:50]
 
     def __str__(self):
         return self.description[:50]
 
-class Likes(models.Model):
+class Commentlikes(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(Profile, models.PROTECT, null = True)
     comment = models.ForeignKey(Comment, models.PROTECT, null = True)
     like = models.BooleanField()
+
+    objects = CommentlikesManager()
+
+    def __repr__(self):
+        return self.user.nickname + self.comment.description[0:50]
+
+    def __str__(self):
+        return self.user.nickname + self.comment.description[0:50]
+
+class Questionlikes(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(Profile, models.PROTECT, null = True)
+    question = models.ForeignKey(Question, models.PROTECT, null = True)
+    like = models.BooleanField()
+
+    objects = QuestionlikesManager()
 
     def __repr__(self):
         return self.user.nickname + self.comment.description[0:50]
