@@ -60,6 +60,21 @@
     width: 100%;
 }
 
+.fullheight{
+    !important;
+    height: 100vh;
+}
+
+.height90{
+    !important;
+    height: 90vh;
+}
+
+.height85{
+    !important;
+    height: 85vh;
+}
+
 .left-align{
     display: flex;
     justify-content: start;

@@ -1,12 +1,15 @@
 .main-question-container{
     height: 45vh;
-    width: 70vw;
+    width: 65vw;
 
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 
-    margin: 1%;
+    /*margin: 3%;*/
+    margin-left: -1vw;
+    margin-top: 2%;
+    margin-bottom: 2%;
     border-radius: 15px;
 }
 
@@ -31,7 +34,6 @@ nav ul{overflow: auto;
     overflow-y:scroll;
     overflow-x: visible;
     width: 70vw;
-    height: 30vh;
     overflow-scrolling: auto
 }
 
@@ -44,8 +46,10 @@ nav ul{overflow: auto;
 
 .CommentBar{
     text-align: center;
-    margin: 0 1%;
-    width: 70vw;
+    margin-left: -1vw;
+    margin-bottom: 0;
+    margin-top: 0;
+    width: 65vw;
 }
 
 .watermark{

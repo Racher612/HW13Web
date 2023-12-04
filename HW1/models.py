@@ -3,6 +3,7 @@ import random
 from django.contrib.auth.models import User
 from django.core.files import File
 from django.db import models
+import random
 
 class questionManager(models.Manager):
     def questionById(self, question_id):
@@ -37,6 +38,8 @@ class profileManager(models.Manager):
 
 class tagManager(models.Manager):
 
+    def hottestTags(self):
+        return random.sample(list(self.all()), 10)
     def alltags(self):
         return self.all()
     def firstten(self):

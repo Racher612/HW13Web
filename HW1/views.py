@@ -16,7 +16,7 @@ likenum = 67
 dislikenum = 56
 
 def ExternalData():
-    # taglist = tagManager.all()
+    taglist = Tag.objects.hottestTags()
     # members = profileManager.best()
     return {'name' : name,
             'link' : src,
@@ -101,44 +101,3 @@ def PRODquestionByTag(request, tag):
     return render(request, "HW1/questionByTag.html", ExternalData() | {"questionlist" : page_obj["page_obj"],
                                                                "pages" : page_obj["pages"],
                                                                        'tag': tag})
-
-def questionByTag(request, tag):
-
-    questionlist = getdata()
-
-    page_obj = paginator(request, questionlist)
-
-    return render(request, "HW1/questionByTag.html", {'name': name,
-                                              'link': src, 'taglist': taglist,
-                                              'page_obj': page_obj,
-                                              'members': members,
-                                              'tag' : tag,
-                                              'questionlist': list(filter(lambda x: tag in x.taglist, page_obj.object_list))})
-def getdata():
-    data = []
-    for i in range(50):
-        item = question()
-        item.id = i + 1
-        item.taglist = item.taglist[random.randint(0, 3) : random.randint(3, 9)]
-        item.likenum = random.randint(1, 200)
-        item.dislikenum = random.randint(1, 100)
-        data.append(item)
-    return data
-
-def getcomments():
-    data = []
-    for i in range(50):
-        item = comment()
-        item.id = i + 1
-        item.likenum = random.randint(1, 200)
-        item.dislikenum = random.randint(1, 100)
-        if i % 4 == 0:
-            item.isuseful = True
-        data.append(item)
-    return data
-
-
-
-
-def fun2(request):
-    return render(request, 'HW1/base.html')

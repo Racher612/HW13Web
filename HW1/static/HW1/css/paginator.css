@@ -1,13 +1,14 @@
 .paginator-list-container{
     display: flex;
     flex-direction: row;
-    justify-content: left;
+    justify-content: center;
+    padding-right: 15%;
 
     gap: 1%;
 }
 
 .paginator-button{
-    width: 25px;
+    width: 5%;
     height: 25px;
     border-radius: 5px;
 
