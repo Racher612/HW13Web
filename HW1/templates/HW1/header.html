@@ -38,10 +38,15 @@
 
             <div class="col-2 user-container">
                     <div class="rounded-circle">
+
                         {% if link == "none" %}
-                            <img src = "{% static 'HW1/img/unregistered.png' %}" class="avatar avatar-48 rounded-circle" alt="avatar">
+                            <img src = "{% static 'HW1/img/unregistered.png' %}" class="avatar-48 rounded-circle" alt="avatar">
                         {% else %}
-                            <img src = {{link}} class="avatar avatar-48 rounded-circle" alt="avatar">
+                            {% if link == "default" %}
+                                <img src = "{% static 'HW1/img/unregistered.png' %}" class="avatar-48 rounded-circle" alt="avatar">
+                            {% else %}
+                                <img src = "/{{ link }}" class="avatar-48 rounded-circle" alt="avatar">
+                            {% endif %}
                         {% endif %}
                     </div>
                 <div class = "username">
@@ -59,7 +64,7 @@
                     </div>
                     <div class="flex-row nowrap white-link">
                         <a href="" class = "white-link">settings</a>
-                        <a href="" class = "white-link">log out</a>
+                        <a href="{% url 'logout' %}" class = "white-link">log out</a>
                     </div>
                     {% endif %}
 

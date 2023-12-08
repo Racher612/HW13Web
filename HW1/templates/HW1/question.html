@@ -2,15 +2,13 @@
 {% load static %}
 
 {% block content %}
-
-
 <div class="columnflex">
     <nav class="NavInfo">
     <ul class="height85">
     <div class = "DarkGradient main-question-container">
         <div class = "images-buttons-container">
             <div class="user-avatar">
-                        <img src = "{% static mainquestion.user.avatar %}" class="avatar-128 bg-primary rounded-circle" alt="avatar">
+                        <img src = "/{{ mainquestion.user.avatar }}" class="avatar-128 bg-primary rounded-circle" alt="avatar">
             </div>
             <div class="buttons">
                 <div class="columnflex align-items-center">
@@ -42,7 +40,7 @@
     <div class = "DarkGradient question-container">
         <div class = "images-buttons-container">
             <div class="user-avatar">
-                        <img src = "{% static comment.user.avatar %}" class="avatar-128 bg-primary rounded-circle" alt="avatar">
+                        <img src = "/{{ comment.user.avatar }}" class="avatar-128 bg-primary rounded-circle" alt="avatar">
             </div>
             <div class="buttons">
                 <div class="columnflex align-items-center">

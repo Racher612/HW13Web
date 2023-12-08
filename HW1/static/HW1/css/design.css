@@ -4,12 +4,18 @@
                 linear-gradient(217deg, #FFF, #FFFF04, #FFF, #FFFF04, #FFF);
 }
 
+.WhiteBackground{
+    !important;
+    background: white;
+}
+
 .DarkGradient{
     background: rgba(0, 10, 253, 0.60);
     background: linear-gradient(180deg, rgba(0, 10, 253, 0.60) 0%, rgba(0, 10, 255, 0.60) 0.01%, rgba(255, 0, 245, 0.60) 100%);
 }
 
 .GoldenFont{
+    !important;
     color: #FFD700;
     font: bold 1.2rem "Fira Sans", serif;
     font-size: 30px;
@@ -57,7 +63,7 @@
 }
 
 .fullscreen{
-    width: 100%;
+    width: 100vw;
 }
 
 .fullheight{
@@ -75,9 +81,23 @@
     height: 85vh;
 }
 
+.height50{
+    !important;
+    height: 20vh;
+}
+
 .left-align{
     display: flex;
     justify-content: start;
+}
+
+.space-between-elements{
+    !important;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+
+    margin-right: 2%;
 }
 
 .Mistake{

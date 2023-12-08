@@ -1,5 +1,3 @@
-
-
 def main(ratio):
 
     fake: Faker = Faker()
@@ -14,23 +12,27 @@ def main(ratio):
     print("tags successfully generated")
 
     #Generation of users
-    users = [
-        User(username = fake.unique.user_name(),
+    users = []
+    for i in range(ratio):
+        if i % (ratio // 10) == 0:
+            print(i)
+        pswrd = fake.password(special_chars=False, length = random.randint(8, 16),  upper_case = True)
+        users.append(User(username = fake.unique.user_name(),
              email = fake.email(),
-             password = fake.password(special_chars=False, length = random.randint(8, 16),  upper_case = True))
-        for i in range(ratio)]
+             password = make_password(pswrd)))
+
     User.objects.bulk_create(users)
 
     print("users succesfully generated")
 
     #Generating profles
-    path1 = "HW1/static/HW1/img/avatars/"
+    path1 = "uploads/"
     path2 = "HW1/img/avatars/"
     filelist = os.listdir(path1)
     length = len(filelist)
     profiles = [
         Profile(user=users[i],
-                avatar = path2 + filelist[random.randint(0, length - 1)])
+                avatar = path1 + filelist[random.randint(0, length - 1)])
         for i in range(ratio)]
     Profile.objects.bulk_create(profiles)
 
@@ -142,6 +144,7 @@ if __name__ == "__main__":
     import os
 
     from django.core.wsgi import get_wsgi_application
+    from django.contrib.auth.hashers import make_password
 
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "HW.settings")
     application = get_wsgi_application()
@@ -154,5 +157,5 @@ if __name__ == "__main__":
 
     start_time = time.time()
 
-    main(1000)
+    main(10000 + 100)
     print("--- %s seconds ---" % (time.time() - start_time))

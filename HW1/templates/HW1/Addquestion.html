@@ -1,28 +1,112 @@
 {% extends "HW1/base.html" %}
+{% load static %}
 
 {% block content %}
-<div class="new-question-container DarkGradient">
+<div class="new-question-container DarkGradient">{% csrf_token %}
     <div class="GoldenFont">New Question</div>
     <div class="rowflex tuple-container">
         <div class="GoldenFont little-text-container">Title: </div>
         <div class="button-block-container">
-          <input type="text" class="form-control" placeholder="Input Title">
+          <input type="text" class="form-control" name = "title" placeholder="Input Title" id = "Title">
         </div>
     </div>
     <div class="rowflex tuple-container">
         <div class="GoldenFont little-text-container">Text: </div>
         <div class="button-block-container">
-          <input type="text" class="form-control large-input-field" placeholder="Input Text">
+            <textarea type = "Text Area" class="form-control large-input-field"
+                      name = "text" placeholder="Input Text" id = "Text"></textarea>
         </div>
     </div>
     <div class="rowflex tuple-container">
         <div class="GoldenFont little-text-container">Tags: </div>
-        <div class="button-block-container">
-          <input type="text" class="form-control " placeholder="Input Tags">
+        <div class="tuple-container rowflex button-block-container ">
+            <input type="text" class="form-control space-between-elements"
+                   id="tags" list="taglist" required size="70%" placeholder="Input Tags"/>
+            <button type="button" class="btn btn-light"
+                    id = "Button-add" onclick="AddTag()">ADD</button>
+        </div>
+    </div>
+    <div class="GoldenFont Mistake" id="mistake-container">Mistake</div>
+    <div class="rowflex Chosen-tag-coontainer">
+        <div class = "Single-container WhiteBackground Mistake" id = "Tag1-container">
+            <span class = "Chosen-tag" name = "TAG1" id = "TAG1"></span>
+            <div class="cl-btn-2">
+                <div>
+                    <div class="leftright" onclick="Close('1')"></div>
+                    <div class="rightleft" onclick="Close('1')"></div>
+                    <span class="close-btn" id = "close-button-1" onclick="Close('1')"></span>
+                </div>
+            </div>
+        </div>
+        <div class = "Single-container WhiteBackground Mistake" id = "Tag2-container">
+            <span class = "Chosen-tag" name = "TAG2" id = "TAG2"></span>
+            <div class="cl-btn-2">
+                <div>
+                    <div class="leftright" onclick="Close('2')"></div>
+                    <div class="rightleft" onclick="Close('2')"></div>
+                    <span class="close-btn" id = "close-button-2" onclick="Close('2')"></span>
+                </div>
+            </div>
+        </div>
+        <div class = "Single-container WhiteBackground Mistake" id = "Tag3-container">
+            <span class = "Chosen-tag" name = "TAG3" id = "TAG3"></span>
+            <div class="cl-btn-2">
+                <div>
+                    <div class="leftright" onclick="Close('3')"></div>
+                    <div class="rightleft" onclick="Close('3')"></div>
+                    <span class="close-btn" id = "close-button-3" onclick="Close('3')"></span>
+                </div>
+            </div>
+        </div>
+        <div class = "Single-container WhiteBackground Mistake" id = "Tag4-container">
+            <span class = "Chosen-tag" name = "TAG4" id = "TAG4"></span>
+            <div class="cl-btn-2">
+                <div>
+                    <div class="leftright" onclick="Close('4')"></div>
+                    <div class="rightleft" onclick="Close('4')"></div>
+                    <span class="close-btn" id = "close-button-4" onclick="Close('4')"></span>
+                </div>
+            </div>
+        </div>
+        <div class = "Single-container WhiteBackground Mistake" id = "Tag5-container">
+            <span class = "Chosen-tag" name = "TAG5" id = "TAG5"></span>
+            <div class="cl-btn-2">
+                <div>
+                    <div class="leftright" onclick="Close('5')"></div>
+                    <div class="rightleft" onclick="Close('5')"></div>
+                    <span class="close-btn" id = "close-button-5" onclick="Close('5')"></span>
+                </div>
+            </div>
+        </div>
+        <div class = "Single-container WhiteBackground Mistake" id = "Tag6-container">
+            <span class = "Chosen-tag" name = "TAG6" id = "TAG6"></span>
+            <div class="cl-btn-2">
+                <div>
+                    <div class="leftright" onclick="Close('6')"></div>
+                    <div class="rightleft" onclick="Close('6')"></div>
+                    <span class="close-btn" id = "close-button-6" onclick="Close('6')"></span>
+                </div>
+            </div>
+        </div>
+        <div class = "Single-container WhiteBackground Mistake" id = "Tag7-container">
+            <span class = "Chosen-tag" name = "TAG7" id = "TAG7"></span>
+            <div class="cl-btn-2">
+                <div>
+                    <div class="leftright" onclick="Close('7')"></div>
+                    <div class="rightleft" onclick="Close('7')"></div>
+                    <span class="close-btn" id = "close-button-7" onclick="Close('7')"></span>
+                </div>
+            </div>
         </div>
     </div>
     <div class="single-button-container">
-        <button type="button" class="btn btn-light">ASK!</button>
+        <button class="btn btn-light" onclick="Validate()">ASK!</button>
     </div>
+    <datalist id="taglist">
+      {% for tag in alltagslist%}
+        <option value = "{{tag}}"></option>
+        {% endfor %}
+    </datalist>
 </div>
+<script src = "{% static 'HW1/js/Addquestion.js' %}"></script>
 {% endblock %}

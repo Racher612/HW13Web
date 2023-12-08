@@ -6,6 +6,7 @@ const EMAIL_REGEXP = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@((
 const input = document.querySelector('#email');
 const pass1 = document.getElementById("pass1")
 const pass2 = document.getElementById("pass2")
+const avatarfield = document.getElementById("id_avatar")
 bar = document.getElementById("mistake-container")
 bar2 = document.getElementById("mistake-container-2")
 function isEmailValid(value) {
@@ -89,10 +90,18 @@ function PasswordsEqual(){
         bar2.textContent = "passwords must be equal"
     }
 }
+var loadFile = function(event) {
+    var item = document.getElementsByClassName("avatar avatar-128 rounded-circle")[0]
+    item.src = URL.createObjectURL(event.target.files[0]);
+    item.onload = function() {
+      URL.revokeObjectURL(item.src) // free memory
+    }
+  };
 
 input.addEventListener('input', onInput);
 pass1.addEventListener('input', validpass);
 pass2.addEventListener('input', validpass);
 pass1.addEventListener('input', PasswordsEqual);
 pass2.addEventListener('input', PasswordsEqual);
+avatarfield.addEventListener('input', loadFile);
 

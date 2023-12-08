@@ -73,17 +73,12 @@ class QuestionlikesManager(models.Manager):
 
 class Profile(models.Model):
     id = models.AutoField(primary_key = True)
-    avatar = models.ImageField()
+    avatar = models.ImageField(null=True, blank=True, default = "default", upload_to = r"HW1\static\HW1\img\avatars")
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     objects = profileManager()
 
-    def save_file(self, file):
-        path = "HW1/static/HW1/img/"
-        path += file
 
-        with open(path) as f:
-            self.avatar.save(file, File(f))
     def __str__(self):
         return self.user.__str__()
 
@@ -92,7 +87,6 @@ class Tag(models.Model):
     tag = models.CharField(max_length=20)
 
     objects = tagManager()
-
     def __str__(self):
         return self.tag
 

@@ -1,22 +1,23 @@
 {% extends "HW1/base.html" %}
 
 {% block content %}
-<div class="new-question-container DarkGradient">
+<form action = "/login" method = "post" class = "new-question-container DarkGradient">{% csrf_token %}
     <div class="GoldenFont">Register</div>
+
     <div class="rowflex tuple-container">
         <div class="GoldenFont little-text-container">Login: </div>
         <div class="button-block-container">
-          <input type="text" class="form-control " placeholder="Input Login">
+          <input type="text" class="form-control" placeholder="Input Login" name = "username">
         </div>
     </div>
     <div class="rowflex tuple-container">
         <div class="GoldenFont little-text-container">Password: </div>
         <div class="button-block-container">
-          <input type="text" class="form-control" placeholder="Input Password">
+          <input type="text" class="form-control" placeholder="Input Password" name = "password">
         </div>
     </div>
     <div class="single-button-container">
-        <button type="button" class="btn btn-light">Log In!</button>
+        <button class="btn btn-light" type = "submit">Log In!</button>
     </div>
-</div>
+</form>
 {% endblock %}

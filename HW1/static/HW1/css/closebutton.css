@@ -1,0 +1,53 @@
+.cl-btn-2 {
+    margin: 2px;
+    display: flex;
+    justify-content: center;
+}
+.cl-btn-2 div {
+    cursor: pointer;
+    position: relative;
+    height: 28px;
+    width: 20px;
+}
+.cl-btn-2 .leftright {
+    height: 4px;
+    width: 20px;
+    position: absolute;
+    margin-top: 10px;
+    background-color: #FFD700;
+    border-radius: 2px;
+    transform: rotate(45deg);
+    transition: all .3s ease-in;
+}
+.cl-btn-2 .rightleft {
+    height: 4px;
+    width: 20px;
+    position: absolute;
+    margin-top: 10px;
+    background-color: #FFD700;
+    border-radius: 2px;
+    transform: rotate(-45deg);
+    transition: all .3s ease-in;
+}
+.cl-btn-2 .close-btn {
+    margin: 54px 0 0 -5px;
+    position: absolute;
+    color: #FFD700;
+    font-family: Tahoma, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all .3s ease-in;
+    opacity: 0;
+}
+.cl-btn-2 div:hover .leftright {
+    transform: rotate(-45deg);
+    background-color: #B132AC;
+}
+.cl-btn-2 div:hover .rightleft {
+    transform: rotate(45deg);
+    background-color: #B132AC;
+}
+.cl-btn-2 div:hover .close-btn {
+    opacity: 1;
+}

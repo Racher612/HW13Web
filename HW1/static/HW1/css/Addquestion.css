@@ -40,3 +40,29 @@
     width: 25%;
     left: 0;
 }
+
+.Chosen-tag-coontainer{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    width: 90%;
+
+    margin: 2px;
+}
+
+.Single-container{
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-around;
+
+    padding: 1%;
+    margin: 1%;
+
+    width: auto;
+    height: 5vh;
+
+    border-radius: 15px;
+}

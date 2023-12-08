@@ -1,5 +1,4 @@
 {% extends "HW1/base.html" %}
-{% load static %}
 
 {% block content %}
 
@@ -12,7 +11,7 @@
     <div class = "DarkGradient question-container">
         <div class = "images-buttons-container">
             <div class="user-avatar">
-                        <img src = "{% static question.user.avatar %}" class="avatar-128 bg-primary rounded-circle" alt="avatar">
+                        <img src = "/{{ question.user.avatar }}" class="avatar-128 bg-primary rounded-circle" alt="avatar">
             </div>
             <div class="buttons">
                 <div class="columnflex align-items-center">
