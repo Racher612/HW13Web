@@ -8,26 +8,13 @@ from HW1.models import Profile
 class settingsForm(forms.ModelForm):
     username = forms.CharField(max_length=50)
     email = forms.CharField(max_length=50)
+    # password = forms.CharField(widget=forms.PasswordInput())
+    # congirm_password = forms.CharField(widget=forms.PasswordInput())
     avatar = forms.ImageField(allow_empty_file = True, required = False)
 
     class Meta:
         model = User
         fields = ["username", "email"]
-
-    def badsave(self, **kwargs):
-        user = super().save(**kwargs)
-        print("before: ", user)
-        user.delete()
-        print("after: ", user)
-        profile = Profile.objects.filter(user=user)[0]
-        print(user, profile)
-        print("avatar: ", profile.avatar)
-        recieved_avatar =  self.cleaned_data.get("avatar")
-        if recieved_avatar:
-            profile.avatar = recieved_avatar
-            profile.save()
-
-        return user
 
     def save(self, request, **kwargs):
         print(request.FILES)

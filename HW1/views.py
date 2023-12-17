@@ -180,16 +180,16 @@ def settings(request):
         return redirect(reverse('login'))
 
     if request.method == "GET":
-        form = settingsForm(initial = model_to_dict(request.user))
+        form = settingsForm(initial = model_to_dict(request.user), instance = request.user)
 
     elif request.method == "POST":
-        form = settingsForm(request.POST, request.FILES, request.user)
+        form = settingsForm(request.POST, request.FILES, instance = request.user)
         if form.is_valid():
             print("VALID")
             form.save(request)
 
     else:
-        form = settingsForm()
+        form = settingsForm(instance=request.user)
 
     return render(request, "HW1/settings.html", ExternalData(request) | {"form" : form})
 
