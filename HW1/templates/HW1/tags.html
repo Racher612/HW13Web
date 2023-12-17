@@ -14,7 +14,7 @@
         <div class = "tag-container">
             {% for member in members %}
                 <p class="BeautifulWhitetext">
-                    {{member}}
+                     <a class="BeautifulWhitetext white-link" href="{% url 'profileById' member.user.id %}">{{member.user}}</a>
                 </p>
             {% endfor %}
         </div>

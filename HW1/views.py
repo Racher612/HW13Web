@@ -1,7 +1,9 @@
+import json
 from datetime import date
 
 from django.contrib.auth.hashers import make_password
 from django.core.files.storage import default_storage
+from django.forms import model_to_dict
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 import random
@@ -26,11 +28,8 @@ dislikenum = 56
 
 def ExternalData(request):
     taglist = Tag.objects.hottestTags()
-    members = ["member1", "member2", "member3",
-               "member4", "member5", "member6",
-               "member7", "member8", "member9", "member10"]
+    members = Profile.objects.random10()
 
-    print(request.user.is_authenticated)
     if request.user.is_authenticated:
         try:
             profile = Profile.objects.filter(user = request.user)[0]
@@ -72,6 +71,18 @@ def PRODquestionById(request, question_id):
 
     page_obj = paginator(request, commentlist)
 
+    if request.method == "POST":
+        text = request.POST.get("comment")
+        comment = Comment(user = request.user.profile,
+                          question = mainquestion,
+                          description = text,
+                          isuseful = False,
+                          likenum = 0,
+                          dislikenum = 0,
+                          )
+        Comment.objects.bulk_create([comment])
+        return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
+
     return render(request, "HW1/question.html", ExternalData(request) | {'pages': page_obj["pages"],
                                                                   'mainquestion': mainquestion,
                                                                   'commentlist': page_obj["page_obj"],
@@ -87,25 +98,27 @@ def PRODquestions(request):
                   "pages" : page_obj["pages"]})
 
 def PRODaddquestion(request):
+    if request.method == "POST":
+        if not request.user.is_authenticated:
+            return redirect(reverse('login'))
 
-    # if request.method == "POST":
-    #     tags = Tag.objects.tagbyname(request.POST.get("tags"))
-    try:
-        print(request.POST)
-    except:
-        pass
-    # tags = [request.POST.get(f"tag${i + 1}") for i in range(7)]
-    # for i in range(7):
-    #     if Tag.objects.tagbyname(tags[i]) == '\n\n\n\n':
-    #         Tag.objects.create()
+        data = json.loads(request.body)
 
 
-    # question = Question(question_name = request.POST.get("title"),
-    #                     question_description = request.POST.get("text"),
-    #                     taglist = tags,
-    #                     likenum = 0,
-    #                     dislikenum = 0,
-    #                     date = date.today())
+        tags = list(filter(lambda x: x != '', [data[f"tag{i + 1}"] for i in range(7)]))
+        tags = [Tag.objects.createTag(item) for item in tags]
+
+        question = Question(user = request.user.profile,
+                            question_name = data["title"],
+                            question_description = data["text"],
+                            date = date.today(),
+                            likenum = 0,
+                            dislikenum = 0)
+
+        q = Question.objects.bulk_create([question])[0]
+
+        q.taglist.set(tags)
+        return redirect(reverse('questionById', args=[q.id]))
 
     return render(request, "HW1/Addquestion.html",
                   ExternalData(request) | {"alltagslist" : list(map(lambda x: x.tag, Tag.objects.all()))})
@@ -150,15 +163,11 @@ def PRODquestionByTag(request, tag):
                   "tag": tag})
 
 def Login(request):
-    print(request.POST)
     if request.method == "POST":
         user = authenticate(username = request.POST.get('username'), password = request.POST.get('password'))
         if user is not None:
             login(request, user)
-            print('logged')
             return redirect(reverse('startpage'))
-        else:
-            print("not logged")
     return render(request, "HW1/login.html", ExternalData(request))
 
 def log_out(request):
@@ -167,5 +176,30 @@ def log_out(request):
     return redirect(reverse('startpage'))
 
 def settings(request):
+    if not request.user.is_authenticated:
+        return redirect(reverse('login'))
 
-    return render(request, "HW1/settings.html", ExternalData(request) | {"form" : settingsForm})
+    if request.method == "GET":
+        form = settingsForm(initial = model_to_dict(request.user))
+
+    elif request.method == "POST":
+        form = settingsForm(request.POST, request.FILES, request.user)
+        if form.is_valid():
+            print("VALID")
+            form.save(request)
+
+    else:
+        form = settingsForm()
+
+    return render(request, "HW1/settings.html", ExternalData(request) | {"form" : form})
+
+def profileById(request, profile_id):
+    profile = Profile.objects.filter(user_id = profile_id)[0]
+    questionlist = Question.objects.filter(user = profile)
+    commentnum = Comment.objects.filter(user = profile).count()
+
+
+    return render(request, "HW1/profileByID.html", ExternalData(request) | {"profile" : profile,
+                                                                            "questionlist" : questionlist,
+                                                                            "commentnum" : commentnum,
+                                                                            "questionum" : len(questionlist)})

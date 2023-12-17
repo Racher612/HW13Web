@@ -1,18 +1,51 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.core.files.storage import default_storage
 
 from HW1.models import Profile
 
 
-class settingsForm(forms.Form):
-    login = forms.CharField(max_length=50)
+class settingsForm(forms.ModelForm):
+    username = forms.CharField(max_length=50)
     email = forms.CharField(max_length=50)
-    password = forms.CharField(widget = forms.PasswordInput)
-    repeat = forms.CharField(widget = forms.PasswordInput)
+    avatar = forms.ImageField(allow_empty_file = True, required = False)
 
     class Meta:
         model = User
-        fields = ["login", "email", "password"]
+        fields = ["username", "email"]
+
+    def badsave(self, **kwargs):
+        user = super().save(**kwargs)
+        print("before: ", user)
+        user.delete()
+        print("after: ", user)
+        profile = Profile.objects.filter(user=user)[0]
+        print(user, profile)
+        print("avatar: ", profile.avatar)
+        recieved_avatar =  self.cleaned_data.get("avatar")
+        if recieved_avatar:
+            profile.avatar = recieved_avatar
+            profile.save()
+
+        return user
+
+    def save(self, request, **kwargs):
+        print(request.FILES)
+        recieved_avatar = self.cleaned_data.get("avatar")
+        user = request.user
+        profile = Profile.objects.filter(user = user)[0]
+        user.username = self.cleaned_data.get("username")
+        user.email = self.cleaned_data.get("email")
+        user.save(update_fields = ['username', 'email'])
+        if recieved_avatar:
+            file = request.FILES[list(request.FILES.keys())[0]]
+            file_name = default_storage.save(file.name, file)
+
+            profile.avatar = "uploads/" + file.name
+            profile.save(update_fields = ['avatar'])
+
+        return user
+
 
 
 class UploadFileForm(forms.Form):

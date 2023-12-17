@@ -36,6 +36,9 @@ class profileManager(models.Manager):
     def best(self):
         return self.all()[0:6]
 
+    def random10(self):
+        return random.choices(self.all(), k = 10)
+
 class tagManager(models.Manager):
 
     def hottestTags(self):
@@ -52,7 +55,13 @@ class tagManager(models.Manager):
         try:
             return self.filter(tag = tagname)[0]
         except:
-            return '\n\n\n\n'
+            return ''
+    def createTag(self, tagname):
+        try:
+            return self.filter(tag = tagname)[0]
+        except:
+            self.create(tagname)
+            return self.filter(tag = tagname)[0]
 
 class commentManager(models.Manager):
 
@@ -134,10 +143,10 @@ class Commentlikes(models.Model):
     objects = CommentlikesManager()
 
     def __repr__(self):
-        return self.user.nickname + self.comment.description[0:50]
+        return self.user.user.username + self.comment.description[0:50]
 
     def __str__(self):
-        return self.user.nickname + self.comment.description[0:50]
+        return self.user.user.username + self.comment.description[0:50]
 
 class Questionlikes(models.Model):
     id = models.AutoField(primary_key=True)
@@ -148,9 +157,9 @@ class Questionlikes(models.Model):
     objects = QuestionlikesManager()
 
     def __repr__(self):
-        return self.user.nickname + self.comment.description[0:50]
+        return self.user.user.username + self.question.question_description[0:50]
 
     def __str__(self):
-        return self.user.nickname + self.comment.description[0:50]
+        return self.user.user.username + self.question.question_description[0:50]
 
 

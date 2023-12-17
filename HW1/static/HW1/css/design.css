@@ -71,6 +71,16 @@
     height: 100vh;
 }
 
+.percentageheight20{
+    !important;
+    height: 20%;
+}
+
+.percentageheight40{
+    !important;
+    height: 40%;
+}
+
 .height90{
     !important;
     height: 90vh;
@@ -98,6 +108,18 @@
     flex-direction: row;
 
     margin-right: 2%;
+}
+
+.column-center{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.row-center{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
 }
 
 .Mistake{

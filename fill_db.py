@@ -45,11 +45,11 @@ def main(ratio):
     #Generation of questions
     questionum = 10
     questions = [Question(user=profiles[i//10],
-                     question_name=fake.text(max_nb_chars=16),
-                     question_description = fake.text(),
-                 date = datetime.date(random.randint(2010, 2024), random.randint(1, 12), random.randint(1, 28)),
-                          likenum = 0,
-                          dislikenum = 0)
+                    question_name=fake.text(max_nb_chars=16),
+                    question_description = fake.text(),
+                    date = datetime.date(random.randint(2010, 2024), random.randint(1, 12), random.randint(1, 28)),
+                    likenum = 0,
+                    dislikenum = 0)
                  for i in range(ratio * questionum)]
 
     print("questions generated")

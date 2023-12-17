@@ -12,6 +12,7 @@ urlpatterns = [
     path('signup', views.PRODconstructregistration, name = "registration"),
     path('login', views.Login, name = "login"),
     path('logout', views.log_out, name='logout'),
+    path('profile/<int:profile_id>', views.profileById, name = "profileById"),
     path('settings', views.settings, name='settings'),
     path('', views.PRODquestions, name = 'startpage'),
 ]

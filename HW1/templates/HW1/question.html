@@ -7,6 +7,7 @@
     <ul class="height85">
     <div class = "DarkGradient main-question-container">
         <div class = "images-buttons-container">
+            <a class="GoldenFont golden-link" href="{% url 'profileById' mainquestion.user.id %}">{{mainquestion.user}}</a>
             <div class="user-avatar">
                         <img src = "/{{ mainquestion.user.avatar }}" class="avatar-128 bg-primary rounded-circle" alt="avatar">
             </div>
@@ -39,6 +40,7 @@
     {% for comment in commentlist %}
     <div class = "DarkGradient question-container">
         <div class = "images-buttons-container">
+            <a class="GoldenFont golden-link" href="{% url 'profileById' comment.user.id %}">{{comment.user}}</a>
             <div class="user-avatar">
                         <img src = "/{{ comment.user.avatar }}" class="avatar-128 bg-primary rounded-circle" alt="avatar">
             </div>
@@ -57,6 +59,8 @@
             <div class="BeautifulWhitetext"><p>{{comment.description}}</p></div>
             {% if comment.isuseful %}
             <div class="BeautifulGreentext watermark">✅Author considered this response useful</div>
+            {% else %}
+            <div class = "BeautifulWhitetext watermark Mistake"> ✅Author considered this response useful </div>
             {% endif %}
         </div>
     </div>
@@ -66,10 +70,10 @@
 </div>
 {% endblock %}
 {% block content2 %}
-<div class="comment-functional-container rowflex DarkGradient">
-    <input type="text" class="form-control comment-placeholder" placeholder="Enter your comment here">
-    <button type="button" class="button-sent BeautifulWhitetext" >
+<form action = "" method = "post" class="comment-functional-container rowflex DarkGradient">{% csrf_token %}
+    <input type="text" class="form-control comment-placeholder" name = "comment" placeholder="Enter your comment here">
+    <button type="submit" class="button-sent BeautifulWhitetext" >
         <img src="{% static 'HW1/img/sent.png' %}" width="70%" height="70%" alt="submit"/>
     </button>
-</div>
+</form>
 {% endblock %}

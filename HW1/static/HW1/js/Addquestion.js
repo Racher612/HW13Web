@@ -118,7 +118,6 @@ function Validate(){
         ShowMistake(103)
         return
     }
-    alert(document.getElementsByName("csrfmiddlewaretoken")[0].value)
     fetch(window.location.href, {
             method: "POST",
             headers: { "Content-type": "application/json",
@@ -126,14 +125,16 @@ function Validate(){
             body: JSON.stringify({
                 "title" : titleContainer.value,
                 "text" : textContainer.value,
-                "tag1" : document.getElementById("TAG1"),
-                "tag2" : document.getElementById("TAG2"),
-                "tag3" : document.getElementById("TAG3"),
-                "tag4" : document.getElementById("TAG4"),
-                "tag5" : document.getElementById("TAG5"),
-                "tag6" : document.getElementById("TAG6"),
-                "tag7" : document.getElementById("TAG7")
+                "tag1" : document.getElementById("TAG1").innerHTML,
+                "tag2" : document.getElementById("TAG2").innerHTML,
+                "tag3" : document.getElementById("TAG3").innerHTML,
+                "tag4" : document.getElementById("TAG4").innerHTML,
+                "tag5" : document.getElementById("TAG5").innerHTML,
+                "tag6" : document.getElementById("TAG6").innerHTML,
+                "tag7" : document.getElementById("TAG7").innerHTML
             })
-    })  .then((response) => response.json())
-        .then((json) => console.log(json))
+    }).then((response) => {if(response.redirected){
+            window.location.href = response.url;
+        } })
+
 }

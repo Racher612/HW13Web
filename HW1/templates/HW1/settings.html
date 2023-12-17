@@ -2,7 +2,32 @@
 {% load static %}
 
 {% block content %}
-<div class="text-container">
-{{ form }}
-</div>
+<script src="{% static 'HW1/js/settings.js' %}"></script>
+<form class="registration-container DarkGradient" method = "post" enctype="multipart/form-data">{% csrf_token %}
+    {% for field in form %}
+    {{ field.errors }}
+    <div class="rowflex tuple-container">
+        <div class="GoldenFont little-text-container">{{ field.label_tag }} </div>
+        <div class="button-block-container">
+            {{ field }}
+        </div>
+
+    </div>
+    {% endfor %}
+        <div class="tuple-button-container">
+            <div class="user-avatar" id = "avatarview">
+                {% if link != "default" %}
+                    <img src = "{{ request.user.profile.avatar }}" class="avatar avatar-128 rounded-circle" alt="avatar">
+                {% else %}
+                    <img src = "{% static 'HW1/img/unregistered.png' %}" class="avatar avatar-128 rounded-circle" alt="avatar">
+                {% endif %}
+            </div>
+            <div class="column-center">
+                <button class="btn btn-light percentageheight40" type = "submit">REFACTOR</button>
+            </div>
+        </div>
+
+
+
+</form>
 {% endblock %}

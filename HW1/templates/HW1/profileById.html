@@ -2,12 +2,33 @@
 {% load static %}
 
 {% block content %}
-<div class="large-question-container">
-    {% for question in questionlist %}
-    <div class = "justify-content-evenly DarkGradient question-container">
+<div class="columnflex">
+    <nav class="NavInfo">
+    <ul class="height100">
+    <div class = "DarkGradient main-question-container">
         <div class = "images-buttons-container">
             <div class="user-avatar">
-                        <img src = "{{ question.user.avatar }}" class="avatar-128 bg-primary rounded-circle" alt="avatar">
+                        <img src = "/{{ profile.avatar }}" class="avatar-128 bg-primary rounded-circle" alt="avatar">
+            </div>
+        </div>
+        <div class="text-container">
+            <a class="GoldenFont golden-link" href="{% url 'profileById' profile.id %}">{{profile.user.username}}</a>
+            <p class="GoldenFont golden-link">{{profile.user.email}}</p>
+        <div class="BeautifulWhitetext">
+            <p>This user asked {{questionum }} questions</p>
+            <p>This user left {{commentnum}} comments</p>
+        </div>
+        </div>
+        </div>
+    <div class = "align-items-center CommentBar">
+        <p class="BeautifulWhitetext DarkGradient rounded-3">questions: </p>
+    </div>
+
+    {% for question in questionlist %}
+    <div class = "DarkGradient question-container">
+        <div class = "images-buttons-container">
+            <div class="user-avatar">
+                        <img src = "/{{ question.user.avatar }}" class="avatar-128 bg-primary rounded-circle" alt="avatar">
             </div>
             <div class="buttons">
                 <div class="columnflex align-items-center">
@@ -34,5 +55,6 @@
     </div>
     {% endfor %}
     {% include "HW1/paginator.html" %}
+    </ul></nav>
 </div>
 {% endblock %}
