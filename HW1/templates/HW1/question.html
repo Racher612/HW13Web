@@ -11,13 +11,21 @@
             <div class="user-avatar">
                         <img src = "/{{ mainquestion.user.avatar }}" class="avatar-128 bg-primary rounded-circle" alt="avatar">
             </div>
-            <div class="buttons">
+            <div class="buttons question-buttons-container">
                 <div class="columnflex align-items-center">
-                    <button class = "btn rounded-5 bg-white">👍</button>
+                    {% if mainquestion.is_liked %}
+                        <button class = "bg-blue btn rounded-5" data-id = "{{ mainquestion.id }}" data-like = 1>👍</button>
+                    {% else %}
+                        <button class = "btn rounded-5 bg-white" data-id = "{{ mainquestion.id }}" data-like = 1>👍</button>
+                    {% endif %}
                     <p class="BeautifulWhitetext">{{mainquestion.likenum}}</p>
                 </div>
                 <div class="columnflex align-items-center">
-                    <button class = "btn rounded-5 bg-white">👎</button>
+                    {% if mainquestion.is_disliked %}
+                        <button class = "bg-blue btn rounded-5" data-id = "{{ mainquestion.id }}" data-like = 0>👎</button>
+                    {% else %}
+                        <button class = "btn rounded-5 bg-white" data-id = "{{ mainquestion.id }}" data-like = 0>👎</button>
+                    {% endif %}
                     <p class="BeautifulWhitetext">{{mainquestion.dislikenum}}</p>
                 </div>
             </div>
@@ -44,13 +52,21 @@
             <div class="user-avatar">
                         <img src = "/{{ comment.user.avatar }}" class="avatar-128 bg-primary rounded-circle" alt="avatar">
             </div>
-            <div class="buttons">
+            <div class="buttons comment-button-container">
                 <div class="columnflex align-items-center">
-                    <button class = "btn rounded-5 bg-white">👍</button>
+                    {% if comment.is_liked %}
+                        <button class = "bg-blue btn rounded-5" data-id = "{{ comment.id }}" data-like = 1>👍</button>
+                    {% else %}
+                        <button class = "btn rounded-5 bg-white" data-id = "{{ comment.id }}" data-like = 1>👍</button>
+                    {% endif %}
                     <p class="BeautifulWhitetext">{{comment.likenum}}</p>
                 </div>
                 <div class="columnflex align-items-center">
-                    <button class = "btn rounded-5 bg-white">👎</button>
+                    {% if comment.is_disliked %}
+                        <button class = "bg-blue btn rounded-5" data-id = "{{ comment.id }}" data-like = 0>👎</button>
+                    {% else %}
+                        <button class = "btn rounded-5 bg-white" data-id = "{{ comment.id }}" data-like = 0>👎</button>
+                    {% endif %}
                     <p class="BeautifulWhitetext">{{comment.dislikenum}}</p>
                 </div>
             </div>
@@ -68,6 +84,7 @@
     {% include "HW1/paginator.html" %}
     </ul></nav>
 </div>
+<script src = "{% static 'HW1/js/commentlikes.js'  %}"></script>
 {% endblock %}
 {% block content2 %}
 <form action = "" method = "post" class="comment-functional-container rowflex DarkGradient">{% csrf_token %}

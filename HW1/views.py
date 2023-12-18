@@ -1,34 +1,30 @@
 import json
 from datetime import date
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.core.files.storage import default_storage
 from django.forms import model_to_dict
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 import random
 from django.core.paginator import Paginator
 from django.contrib.auth import login, authenticate, logout
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 from .forms import *
 from .models import *
 
-name = "Tyler"
-src = ["../static/HW1/img/Tyler.jpg"]
-src = "none"
-taglist = ["tag1", "tag2", "tagtag3",
-               "tag4", "tagtagtag5", "tag6",
-               "tagtag7", "tag8", "tag9"]
-members = ["member1", "member2", "member3",
-               "member4", "member5", "member6",
-               "member7", "member8", "member9", "member10"]
-likenum = 67
-dislikenum = 56
-
 def ExternalData(request):
-    taglist = Tag.objects.hottestTags()
-    members = Profile.objects.random10()
+    try:
+        taglist = Tag.objects.hottestTags()
+    except:
+        taglist = []
+    try:
+        members = Profile.objects.random10()
+    except:
+        members = []
 
     if request.user.is_authenticated:
         try:
@@ -61,7 +57,6 @@ def paginator(request, structure):
     requiredpages = list(map(str, [pages[0], max(int(pagenum) - 1, 1),
                                    int(pagenum), min(int(pagenum) + 1, length), length]))
 
-
     return {"page_obj" : page_obj,
             "pages" : [{"sym" : symbols[i], "val" : requiredpages[i]} for i in range(5)]}
 
@@ -89,9 +84,39 @@ def PRODquestionById(request, question_id):
                                                              })
 
 def PRODquestions(request):
-    questionlist = Question.objects.all()
 
-    page_obj = paginator(request, questionlist)
+    # if request.user.is_authenticated:
+        # print("index, auth")
+        #
+        # profile = Profile.objects.filter(user = request.user)[0]
+        # questionlist = Question.objects.all()
+        # questionlikes = Questionlikes.objects.filter(user = profile)
+        #
+        # for item in questionlist:
+        #     like = list(filter(lambda x: x.question == item, questionlikes))
+        #     is_liked = False
+        #     is_disliked = False
+        #     if like:
+        #         rate = like[0].like
+        #         if rate:
+        #             is_liked = True
+        #         else:
+        #             is_disliked = True
+        #
+        #     item.is_liked = is_liked
+        #     item.is_disliked = is_disliked
+        #     item.save(update_fields = ["is_liked", "is_disliked"])
+
+    # else:
+    #     print("index, not auth")
+    #     questionlist = []
+    #     for item in Question.objects.all():
+    #         item.is_liked = False
+    #         item.is_disliked = False
+    #         item.save(update_fields=["is_liked", "is_disliked"])
+    #         questionlist.append(item)
+
+    page_obj = paginator(request, Question.objects.all())
 
     return render(request, "HW1/index.html", ExternalData(request) |
                   {"questionlist" : page_obj["page_obj"],
@@ -165,16 +190,79 @@ def PRODquestionByTag(request, tag):
 def Login(request):
     if request.method == "POST":
         user = authenticate(username = request.POST.get('username'), password = request.POST.get('password'))
+
         if user is not None:
+            profile = Profile.objects.filter(user = user)[0]
+            questionlikes = Questionlikes.objects.filter(user=profile)
+            questionlist = list(map(lambda x: x.question, questionlikes))
+
+            for item in questionlist:
+                like = list(filter(lambda x: x.question == item, questionlikes))
+                is_liked = False
+                is_disliked = False
+                if like:
+                    rate = like[0].like
+                    if rate:
+                        is_liked = True
+                    else:
+                        is_disliked = True
+
+                item.is_liked = is_liked
+                item.is_disliked = is_disliked
+                item.save(update_fields=["is_liked", "is_disliked"])
+            print("questions finished")
+
+            del questionlist
+            del questionlikes
+            print(user)
+
+            commentlikes = Commentlikes.objects.filter(user = profile)
+            commentlist = list(map(lambda x: x.comment, commentlikes))
+            print(commentlist, len(commentlist))
+            i = 0
+
+            for item in commentlist:
+                like = list(filter(lambda x: x.comment == item, commentlikes))
+                is_liked = False
+                is_disliked = False
+                if like:
+                    rate = like[0].like
+                    if rate:
+                        is_liked = True
+                    else:
+                        is_disliked = True
+
+                item.is_liked = is_liked
+                item.is_disliked = is_disliked
+                item.save(update_fields=["is_liked", "is_disliked"])
+                i+=1
+            print("comments finished")
+
             login(request, user)
             return redirect(reverse('startpage'))
     return render(request, "HW1/login.html", ExternalData(request))
 
 def log_out(request):
+    profile = Profile.objects.filter(user=request.user)[0]
+    commentlikes = Commentlikes.objects.filter(user=profile)
+    questionlikes = Questionlikes.objects.filter(user=profile)
     logout(request)
+
+    questionlist = list(map(lambda x: x.question, questionlikes))
+    commentlist = list(map(lambda x: x.comment, commentlikes))
+    for item in questionlist:
+        item.is_liked = False
+        item.is_disliked = False
+        item.save(update_fields=["is_liked", "is_disliked"])
+
+    for item in commentlist:
+        item.is_liked = False
+        item.is_disliked = False
+        item.save(update_fields=["is_liked", "is_disliked"])
 
     return redirect(reverse('startpage'))
 
+@login_required
 def settings(request):
     if not request.user.is_authenticated:
         return redirect(reverse('login'))
@@ -198,8 +286,48 @@ def profileById(request, profile_id):
     questionlist = Question.objects.filter(user = profile)
     commentnum = Comment.objects.filter(user = profile).count()
 
-
     return render(request, "HW1/profileByID.html", ExternalData(request) | {"profile" : profile,
                                                                             "questionlist" : questionlist,
                                                                             "commentnum" : commentnum,
                                                                             "questionum" : len(questionlist)})
+@login_required
+@csrf_exempt
+def like(request):
+    data = json.loads(request.body)
+    like = data.get('like')
+    id = int(data.get('question_id'))
+    profile = Profile.objects.filter(user = request.user)[0]
+    question = Question.objects.get(id = int(id))
+    values = Questionlikes.objects.toggle_like(user = profile, question = question, like = like)
+    if like:
+        question.is_liked = True
+        question.is_disliked = False
+        question.save(update_fields = ["is_liked", "is_disliked"])
+    else:
+        question.is_disliked = True
+        question.is_liked = False
+        question.save(update_fields = ["is_disliked", "is_liked"])
+    print(values)
+
+    return JsonResponse(values)
+
+@login_required
+@csrf_exempt
+def commentlike(request):
+    data = json.loads(request.body)
+    like = data.get('like')
+    id = int(data.get('comment_id'))
+    profile = Profile.objects.filter(user = request.user)[0]
+    comment = Comment.objects.get(id = int(id))
+    values = Commentlikes.objects.toggle_like(user = profile, comment = comment, like = like)
+    if like:
+        comment.is_liked = True
+        comment.is_disliked = False
+        comment.save(update_fields = ["is_liked", "is_disliked"])
+    else:
+        comment.is_disliked = True
+        comment.is_liked = False
+        comment.save(update_fields = ["is_disliked", "is_liked"])
+    print(values)
+
+    return JsonResponse(values)

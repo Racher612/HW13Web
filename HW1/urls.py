@@ -14,6 +14,8 @@ urlpatterns = [
     path('logout', views.log_out, name='logout'),
     path('profile/<int:profile_id>', views.profileById, name = "profileById"),
     path('settings', views.settings, name='settings'),
+    path('like/', views.like, name = 'like'),
+    path('commentlike/', views.commentlike, name = 'commentlike'),
     path('', views.PRODquestions, name = 'startpage'),
 ]
 

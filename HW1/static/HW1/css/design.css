@@ -42,6 +42,22 @@
     font-size: 20px;
 }
 
+.bg-blue{
+    --bs-bg-opacity: 1;
+    background: #0d6efd;
+}
+
+.bg-blue:hover{
+    --bs-bg-opacity: 1;
+    background: #0d6efd;
+}
+
+.bg-blue:active{
+    --bs-bg-opacity: 1;
+    background: #0d6efd;
+}
+
+
 .rowflex{
     display: flex;
     justify-content: space-between;

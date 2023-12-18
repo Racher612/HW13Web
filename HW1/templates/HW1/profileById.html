@@ -32,11 +32,19 @@
             </div>
             <div class="buttons">
                 <div class="columnflex align-items-center">
-                    <button class = "btn rounded-5 bg-white">👍</button>
+                    {% if question.is_liked %}
+                        <button class = "bg-blue btn rounded-5" data-id = "{{ question.id }}" data-like = 1>👍</button>
+                    {% else %}
+                        <button class = "btn rounded-5 bg-white" data-id = "{{ question.id }}" data-like = 1>👍</button>
+                    {% endif %}
                     <p class="BeautifulWhitetext">{{question.likenum}}</p>
                 </div>
                 <div class="columnflex align-items-center">
-                    <button class = "btn rounded-5 bg-white">👎</button>
+                    {% if question.is_disliked %}
+                        <button class = "bg-blue btn rounded-5" data-id = "{{ question.id }}" data-like = 0>👎</button>
+                    {% else %}
+                        <button class = "btn rounded-5 bg-white" data-id = "{{ question.id }}" data-like = 0>👎</button>
+                    {% endif %}
                     <p class="BeautifulWhitetext">{{question.dislikenum}}</p>
                 </div>
             </div>
@@ -57,4 +65,5 @@
     {% include "HW1/paginator.html" %}
     </ul></nav>
 </div>
+<script src = "{% static 'HW1/js/likes.js'  %}"></script>
 {% endblock %}

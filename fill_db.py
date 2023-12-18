@@ -20,6 +20,7 @@ def main(ratio):
         users.append(User(username = fake.unique.user_name(),
              email = fake.email(),
              password = make_password(pswrd)))
+    print("prepared user: ", users[-1], "\nhis password: ", pswrd)
 
     User.objects.bulk_create(users)
 
@@ -59,7 +60,8 @@ def main(ratio):
     questionlikes = []
     corner = 0
     questionlikesnum = 100
-    for i in range(ratio * questionlikesnum * questionum):
+    index = questionlikesnum // questionum
+    for i in range(ratio * questionlikesnum):
         if i % 1000000 == 0:
             Question.objects.bulk_create(questions[corner : i])
             corner = i
@@ -67,13 +69,14 @@ def main(ratio):
             questionlikes = []
             print("cleaned")
         like = bool(random.randint(0, 2))
-        questionlikes.append(Questionlikes(user = profiles[i // questionlikesnum // questionum],
-                     question = questions[i // questionlikesnum],
+        questionlikes.append(Questionlikes(user = profiles[i // (questionlikesnum)],
+                     question = questions[(i // (index * questionlikesnum)) * questionlikesnum
+                                          + i % questionlikesnum],
                      like = like))
         if like:
-            questions[i//questionlikesnum].likenum += 1
+            questions[i//index].likenum += 1
         else:
-            questions[i//questionlikesnum].dislikenum += 1
+            questions[i//index].dislikenum += 1
 
     if questions[corner: ratio * questionlikesnum * questionum]:
         Question.objects.bulk_create(questions[corner : ratio * questionlikesnum * questionum])
@@ -93,6 +96,7 @@ def main(ratio):
     print("tags successfully set")
 
     # Generating comments
+    commentnum = 100
     comments = [
         Comment(user=profiles[i // 100],
                 description=fake.text(),
@@ -100,7 +104,7 @@ def main(ratio):
                 isuseful=fake.pybool(),
                 likenum=0,
                 dislikenum=0)
-        for i in range(ratio * 100)
+        for i in range(ratio * commentnum)
     ]
 
     del questions
@@ -112,8 +116,9 @@ def main(ratio):
     # Generationg commentlikes
     corner = 0
     commentlikes = []
-    commentnum = 10
-    for i in range(ratio * 100 * commentnum):
+    commentlikesnum = 1000
+    index = commentlikesnum // commentnum
+    for i in range(ratio * commentlikesnum):
 
         if i % 1000000 == 0:
             Comment.objects.bulk_create(comments[corner : i])
@@ -122,13 +127,13 @@ def main(ratio):
             commentlikes = []
             print("cleaned")
         like = bool(random.randint(0, 2))
-        commentlikes.append(Commentlikes(user=profiles[i // 1000],
-                                         comment=comments[i // commentnum],
+        commentlikes.append(Commentlikes(user=profiles[i // (commentlikesnum)],
+                                         comment=comments[(i // (index * commentlikesnum)) * commentlikesnum + i % commentlikesnum],
                                          like=like))
         if like:
-            comments[i // commentnum].likenum += 1
+            comments[i // index].likenum += 1
         else:
-            comments[i // commentnum].dislikenum += 1
+            comments[i // index].dislikenum += 1
 
     if comments[corner : ratio * 100 * 10]:
         Comment.objects.bulk_create(comments)
@@ -157,5 +162,5 @@ if __name__ == "__main__":
 
     start_time = time.time()
 
-    main(10000 + 100)
+    main(1000 + 10)
     print("--- %s seconds ---" % (time.time() - start_time))

@@ -18,16 +18,6 @@ class questionManager(models.Manager):
     def allquestions(self):
         return self.all()
 
-    def like(self, id):
-        quest = self.filter(id = id + 1)[0]
-        quest.likenum += 1
-        quest.save()
-
-    def dislike(self, id):
-        quest = self.filter(id=id + 1)[0]
-        quest.dislikenum += 1
-        quest.save()
-
 
 class profileManager(models.Manager):
     def allprofiles(self):
@@ -75,9 +65,83 @@ class CommentlikesManager(models.Manager):
     def allcomments(self):
         return self.all()
 
+    def toggle_like(self, user, comment, like):
+        if self.filter(user=user, comment=comment, like=like).exists():
+            if like:
+                comment.likenum -= 1
+            else:
+                comment.dislikenum -= 1
+            comment.save(update_fields=['likenum', "dislikenum"])
+            self.filter(user=user, comment=comment).delete()
+            return {"likenum": comment.likenum,
+                "dislikenum": comment.dislikenum}
+
+        if self.filter(user = user, comment = comment).exists():
+            self.filter(user = user, comment = comment).delete()
+            self.create(user=user, comment=comment, like=like)
+            print("exists")
+            if like:
+                comment.likenum += 1
+                comment.dislikenum -= 1
+            else:
+                comment.dislikenum += 1
+                comment.likenum -= 1
+            comment.save(update_fields = ['likenum', "dislikenum"])
+            print(comment.likenum, comment.dislikenum)
+        else:
+            self.create(user=user, comment=comment, like = like)
+            print("does not exist")
+            if like:
+                comment.likenum += 1
+                comment.save(update_fields = ['likenum'])
+            else:
+                comment.dislikenum += 1
+                comment.save(update_fields = ['dislikenum'])
+            print(comment.likenum, comment.dislikenum)
+
+        return {"likenum": comment.likenum,
+                "dislikenum": comment.dislikenum}
+
 class QuestionlikesManager(models.Manager):
     def allquestions(self):
         return self.all()
+    def toggle_like(self, user, question, like):
+        if self.filter(user=user, question=question, like=like).exists():
+            if like:
+                question.likenum -= 1
+            else:
+                question.dislikenum -= 1
+            question.save(update_fields=['likenum', "dislikenum"])
+            self.filter(user=user, question=question).delete()
+            return {"likenum": question.likenum,
+                "dislikenum": question.dislikenum}
+
+        if self.filter(user = user, question = question).exists():
+            self.filter(user = user, question = question).delete()
+            self.create(user=user, question=question, like=like)
+            print("exists")
+            if like:
+                question.likenum += 1
+                question.dislikenum -= 1
+            else:
+                question.dislikenum += 1
+                question.likenum -= 1
+            question.save(update_fields = ['likenum', "dislikenum"])
+            print(question.likenum, question.dislikenum)
+        else:
+            self.create(user=user, question=question, like = like)
+            print("does not exist")
+            if like:
+                question.likenum += 1
+                question.save(update_fields = ['likenum'])
+            else:
+                question.dislikenum += 1
+                question.save(update_fields = ['dislikenum'])
+            print(question.likenum, question.dislikenum)
+
+        return {"likenum": question.likenum,
+                "dislikenum": question.dislikenum}
+
 
 
 class Profile(models.Model):
@@ -111,6 +175,10 @@ class Question(models.Model):
     likenum = models.IntegerField()
     dislikenum = models.IntegerField()
 
+    is_liked = models.BooleanField(null = True)
+    is_disliked = models.BooleanField(null = True)
+
+
     objects = questionManager()
 
     def __str__(self):
@@ -125,6 +193,9 @@ class Comment(models.Model):
 
     likenum = models.IntegerField()
     dislikenum = models.IntegerField()
+
+    is_liked = models.BooleanField(null=True)
+    is_disliked = models.BooleanField(null=True)
 
     objects = commentManager()
 
@@ -142,6 +213,9 @@ class Commentlikes(models.Model):
 
     objects = CommentlikesManager()
 
+    class Meta:
+        unique_together = ['user', 'comment']
+
     def __repr__(self):
         return self.user.user.username + self.comment.description[0:50]
 
@@ -155,6 +229,9 @@ class Questionlikes(models.Model):
     like = models.BooleanField()
 
     objects = QuestionlikesManager()
+
+    class Meta:
+        unique_together = ['user', 'question']
 
     def __repr__(self):
         return self.user.user.username + self.question.question_description[0:50]
