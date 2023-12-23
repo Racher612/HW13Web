@@ -4,8 +4,8 @@
 
 <div class="large-question-container">
 <div class="DarkGradient info-tag-container">
-    <div class="GoldenFont">{{ Tag }}:</div>
-    <div class="BeautifulWhitetext">{{ tag }}</div>
+    <div class="GoldenFont">{{ Search }}:</div>
+    <div class="BeautifulWhitetext">{{ search }}</div>
 </div>
     {% for question in questionlist %}
     <div class = "DarkGradient question-container">
@@ -36,7 +36,7 @@
             <a class="GoldenFont golden-link" href="{% url 'questionById' question.id %}">{{question.question_name}}</a>
             <div class="BeautifulWhitetext"><p>{{question.question_description}}</p></div>
             <div class = "">
-                <div class="GoldenFont tag-container">tags:
+                <div class="GoldenFont tag-container">{{ tags }}:
                         {% for tag in question.taglist.all %}
                             <a href = "{% url 'questionByTag' tag %}" class="BeautifulWhitetext white-link">{{tag}},  </a>
                         {% endfor %}

@@ -42,7 +42,7 @@
         </div>
     </div>
     <div class = "align-items-center CommentBar">
-        <p class="BeautifulWhitetext DarkGradient rounded-3">comments: </p>
+        <p class="BeautifulWhitetext DarkGradient rounded-3">{{ comments }}: </p>
     </div>
 
     {% for comment in commentlist %}
@@ -74,9 +74,9 @@
         <div class="text-container-comments">
             <div class="BeautifulWhitetext"><p>{{comment.description}}</p></div>
             {% if comment.isuseful %}
-            <div class="BeautifulGreentext watermark">✅Author considered this response useful</div>
+            <div class="BeautifulGreentext watermark">✅{{ useful }}</div>
             {% else %}
-            <div class = "BeautifulWhitetext watermark Mistake"> ✅Author considered this response useful </div>
+            <div class = "BeautifulWhitetext watermark Mistake"> ✅ {{ useful }} </div>
             {% endif %}
         </div>
     </div>

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <body>
     <div class="DarkGradient tagWindow">
-        <h3 class="GoldenFont">Popular Tags</h3>
+        <h3 class="GoldenFont">{{ Popular_Tags }}</h3>
         <div class = "tag-container">
             {% for tag in taglist %}
                 <p class="BeautifulWhitetext">
@@ -10,7 +10,7 @@
                 </p>
             {% endfor %}
         </div>
-        <h3 class="GoldenFont">Best Members</h3>
+        <h3 class="GoldenFont">{{ Best_Members }}</h3>
         <div class = "tag-container">
             {% for member in members %}
                 <p class="BeautifulWhitetext">

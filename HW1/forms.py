@@ -17,7 +17,6 @@ class settingsForm(forms.ModelForm):
         fields = ["username", "email"]
 
     def save(self, request, **kwargs):
-        print(request.FILES)
         recieved_avatar = self.cleaned_data.get("avatar")
         user = request.user
         profile = Profile.objects.filter(user = user)[0]
@@ -44,7 +43,6 @@ class UploadFileForm(forms.Form):
     def save(self, **kwargs):
         user = super().save(**kwargs)
         profile = user.avatar
-        print(user.avatar)
         profile.avatar = self.cleaned_data.get("avatar")
         profile.save()
 

@@ -20,22 +20,25 @@
     <header class = "foot DarkGradient">
         <div class="fullscreen row">
                 <div class="col-3 light nowrap " id = "logo">
-                    <h1><i><a href="{% url 'startpage' %}" class = "white-link">HomeWork.com</a></i></h1>
+                    <h1><i><a href="{% url 'startpage' %}" class = "white-link">{{ Studforum }}</a></i></h1>
                 </div>
                 <div class = "col-5 pt-2">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search">
+                        <input type="text" class="form-control space-between-elements"
+                               placeholder="{{Search}}" id ="SearchField" list = "QuestionList">
                             <div class="input-group-append">
-                            <button class="btn btn-secondary" type="button">
+                            <button class="btn btn-secondary" type="button" onclick="Search()">
                             <i class="fa fa-search"></i>
                             </button>
                             </div>
                         </div>
                 </div>
-            <div class="col-2 pt-2">
-                <a href="{% url 'Addquestion' %}" class = "btn btn-light text-black">ASK!</a>
+            <div class="col-1 pt-2">
+                <a href="{% url 'Addquestion' %}" class = "btn btn-light text-black">{{ ask }}</a>
             </div>
-
+            <div class = "col-1 pt-2">
+                <button class = "form-control w-75" onclick = "ChangeLang()">{{ language }}</button>
+            </div>
             <div class="col-2 user-container">
                     <div class="rounded-circle">
 
@@ -55,24 +58,29 @@
                         Unregistered
                     </div>
                     <div class="flex-row nowrap ">
-                        <a href="{% url 'login' %}" class = "white-link">login</a>
-                        <a href="{% url 'registration' %}" class = "white-link">register</a>
+                        <a href="{% url 'login' %}" class = "white-link">{{ login }}</a>
+                        <a href="{% url 'registration' %}" class = "white-link">{{ register }}</a>
                     </div>
                     {% else %}
                     <div class="BeautifulWhitetext name-container">
                         {{name}}
                     </div>
                     <div class="flex-row nowrap white-link">
-                        <a href="{% url 'settings' %}" class = "white-link">settings</a>
-                        <a href="{% url 'logout' %}" class = "white-link">log out</a>
+                        <a href="{% url 'settings' %}" class = "white-link">{{ settings }}</a>
+                        <a href="{% url 'logout' %}" class = "white-link">{{ logout }}</a>
                     </div>
                     {% endif %}
-
-
                 </div>
             </div>
         </div>
+        <datalist id="QuestionList">
+            <option value = "a"></option>
+            <option value = "b"></option>
+          {% for q in FoundQuestions %}
+                <option value = "{{ q }}"></option>
+            {% endfor %}
+        </datalist>
     </header>
 </body>
-
+<script src = "{% static 'HW1/js/header.js' %}"></script>
 </html>

@@ -3,27 +3,27 @@
 
 {% block content %}
 <div class="new-question-container DarkGradient">{% csrf_token %}
-    <div class="GoldenFont">New Question</div>
+    <div class="GoldenFont">{{ NewQuestion }}</div>
     <div class="rowflex tuple-container">
-        <div class="GoldenFont little-text-container">Title: </div>
+        <div class="GoldenFont little-text-container">{{ title }}: </div>
         <div class="button-block-container">
           <input type="text" class="form-control" name = "title" placeholder="Input Title" id = "Title">
         </div>
     </div>
     <div class="rowflex tuple-container">
-        <div class="GoldenFont little-text-container">Text: </div>
+        <div class="GoldenFont little-text-container">{{ text }}: </div>
         <div class="button-block-container">
             <textarea type = "Text Area" class="form-control large-input-field"
                       name = "text" placeholder="Input Text" id = "Text"></textarea>
         </div>
     </div>
     <div class="rowflex tuple-container">
-        <div class="GoldenFont little-text-container">Tags: </div>
+        <div class="GoldenFont little-text-container">{{ tags }}: </div>
         <div class="tuple-container rowflex button-block-container ">
             <input type="text" class="form-control space-between-elements"
                    id="tags" list="taglist" required size="70%" placeholder="Input Tags"/>
             <button type="button" class="btn btn-light"
-                    id = "Button-add" onclick="AddTag()">ADD</button>
+                    id = "Button-add" onclick="AddTag()">{{ add }}</button>
         </div>
     </div>
     <div class="GoldenFont Mistake" id="mistake-container">Mistake</div>
@@ -100,7 +100,7 @@
         </div>
     </div>
     <div class="single-button-container">
-        <button class="btn btn-light" onclick="Validate()">ASK!</button>
+        <button class="btn btn-light" onclick="Validate()">{{ ask }}</button>
     </div>
     <datalist id="taglist">
       {% for tag in alltagslist%}

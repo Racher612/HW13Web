@@ -9,31 +9,31 @@
         <div class="BeautifulRedtext Mistake col-6" id="mistake-container-2"></div>
     </div>
     <div class="rowflex tuple-container">
-        <div class="GoldenFont little-text-container">Login: </div>
+        <div class="GoldenFont little-text-container">{{ login }}: </div>
         <div class="button-block-container">
           <input type="text" class="form-control " placeholder="Input Login" name = "username">
         </div>
     </div>
     <div class="rowflex tuple-container">
-        <div class="GoldenFont little-text-container">Email: </div>
+        <div class="GoldenFont little-text-container">{{ Email }}: </div>
         <div class="button-block-container">
           <input type="text" class="form-control " placeholder="Input Email" id="email" name = "Email">
         </div>
     </div>
     <div class="rowflex tuple-container">
-        <div class="GoldenFont little-text-container">Password: </div>
+        <div class="GoldenFont little-text-container">{{ Password }}: </div>
         <div class="button-block-container">
           <input type="password" class="form-control" id="pass1" placeholder="Input Password" name = "password">
         </div>
     </div>
     <div class="rowflex tuple-container">
-        <p class="GoldenFont little-text-container">Repeat: </p>
+        <p class="GoldenFont little-text-container">{{ Repeat }}: </p>
         <div class="button-block-container">
           <input type="password" class="form-control" id="pass2" placeholder="Input Password Again">
         </div>
     </div>
     <div class="left-align tuple-container">
-        <div class="GoldenFont little-text-container">Avatar: </div>
+        <div class="GoldenFont little-text-container">{{ Avatar }}: </div>
         <div class="user-avatar" id = "avatarview">
             {% if link == "none" %}
                 <img src = "{% static 'HW1/img/unregistered.png' %}" class="avatar avatar-128 rounded-circle" alt="avatar">
@@ -44,7 +44,7 @@
     </div>
     {{ form }}
     <div class="tuple-button-container">
-        <button type="submit" class="btn btn-light">Register</button>
+        <button type="submit" class="btn btn-light">{{ register }}</button>
         <button type="button" class="btn btn-light" onclick="OpenLoginPage()">Log in</button>
     </div>
 </form>

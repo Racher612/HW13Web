@@ -2,22 +2,22 @@
 
 {% block content %}
 <form action = "/login" method = "post" class = "new-question-container DarkGradient">{% csrf_token %}
-    <div class="GoldenFont">Register</div>
+    <div class="GoldenFont">{{ register }}</div>
 
     <div class="rowflex tuple-container">
-        <div class="GoldenFont little-text-container">Login: </div>
+        <div class="GoldenFont little-text-container">{{ login }}: </div>
         <div class="button-block-container">
           <input type="text" class="form-control" placeholder="Input Login" name = "username">
         </div>
     </div>
     <div class="rowflex tuple-container">
-        <div class="GoldenFont little-text-container">Password: </div>
+        <div class="GoldenFont little-text-container">{{ Password }}: </div>
         <div class="button-block-container">
           <input type="text" class="form-control" placeholder="Input Password" name = "password">
         </div>
     </div>
     <div class="single-button-container">
-        <button class="btn btn-light" type = "submit">Log In!</button>
+        <button class="btn btn-light" type = "submit">{{ login }}!</button>
     </div>
 </form>
 {% endblock %}

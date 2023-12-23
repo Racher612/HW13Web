@@ -21,6 +21,10 @@
     max-height: 30px;
 }
 
+.language-button{
+    width: 3vw;
+}
+
 .username{
     display: flex;
     justify-content: space-around;

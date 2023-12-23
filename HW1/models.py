@@ -79,7 +79,6 @@ class CommentlikesManager(models.Manager):
         if self.filter(user = user, comment = comment).exists():
             self.filter(user = user, comment = comment).delete()
             self.create(user=user, comment=comment, like=like)
-            print("exists")
             if like:
                 comment.likenum += 1
                 comment.dislikenum -= 1
@@ -87,17 +86,14 @@ class CommentlikesManager(models.Manager):
                 comment.dislikenum += 1
                 comment.likenum -= 1
             comment.save(update_fields = ['likenum', "dislikenum"])
-            print(comment.likenum, comment.dislikenum)
         else:
             self.create(user=user, comment=comment, like = like)
-            print("does not exist")
             if like:
                 comment.likenum += 1
                 comment.save(update_fields = ['likenum'])
             else:
                 comment.dislikenum += 1
                 comment.save(update_fields = ['dislikenum'])
-            print(comment.likenum, comment.dislikenum)
 
         return {"likenum": comment.likenum,
                 "dislikenum": comment.dislikenum}
@@ -119,7 +115,6 @@ class QuestionlikesManager(models.Manager):
         if self.filter(user = user, question = question).exists():
             self.filter(user = user, question = question).delete()
             self.create(user=user, question=question, like=like)
-            print("exists")
             if like:
                 question.likenum += 1
                 question.dislikenum -= 1
@@ -127,17 +122,14 @@ class QuestionlikesManager(models.Manager):
                 question.dislikenum += 1
                 question.likenum -= 1
             question.save(update_fields = ['likenum', "dislikenum"])
-            print(question.likenum, question.dislikenum)
         else:
             self.create(user=user, question=question, like = like)
-            print("does not exist")
             if like:
                 question.likenum += 1
                 question.save(update_fields = ['likenum'])
             else:
                 question.dislikenum += 1
                 question.save(update_fields = ['dislikenum'])
-            print(question.likenum, question.dislikenum)
 
         return {"likenum": question.likenum,
                 "dislikenum": question.dislikenum}
